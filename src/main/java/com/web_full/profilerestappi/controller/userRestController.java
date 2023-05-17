@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/userSent")
+@RequestMapping("/api/v1/")
 public class userRestController {
     private final UserService userService;
     @GetMapping("/allUsers")
@@ -33,7 +33,7 @@ public class userRestController {
         try {
             int responseRow = userService.ResponseUser(request);
             if (responseRow > 0){
-                User user = new User().setId(responseRow).setName(request.getName())
+                User user = new User().setName(request.getName())
                         .setEmail(request.getEmail()).setDescription(request.getDescription())
                         .setAddress(request.getAddress());
                 return Response.<User>createSuccess().setMessage("Successfully insert").setPayload(user);
@@ -41,6 +41,7 @@ public class userRestController {
                 return Response.<User>badRequest().setMessage("Bad Request ! Failed to create user");
             }
         }catch (Exception e){
+            e.printStackTrace();
             return Response.<User>exception().setMessage("Something Error!");
         }
     }
